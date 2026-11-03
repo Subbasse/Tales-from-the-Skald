@@ -388,8 +388,7 @@ h2{font-size:clamp(22px,7vw,30px);line-height:1.1}
 .twd .tbd{font-size:20px;color:var(--bone);margin:0}
 .twd .tbn{font-size:17px;color:var(--dim);margin:0}
 </style>
-</head>
-<body>
+
 <div id="app">
   <div id="hud">
     <div class="hrow">
@@ -523,7 +522,7 @@ function mk(rows,over,opt){
   x.putImageData(im,0,0);
   const f=document.createElement('canvas');f.width=W2;f.height=H2;const fx=f.getContext('2d');
   fx.drawImage(cv,0,0);fx.globalCompositeOperation='source-in';fx.fillStyle='#fff';fx.fillRect(0,0,W2,H2);
-  return{c:cv,f,w:W2/2,h:H2/2};
+  return{c:cv,f,w:W2/2,h:H2/2,rows};
 }
 const WALKER=['....kkkk....','...knnnnk...','..knnnnnnk..','..kncnncnk..','..knnnnnnk..','...kwwwwk...','..kdddddddk.','.kknddddnkk.','.knkddddkn..','..kdNddNdk..','..kdd..ddk..','..knk..knk..','..kkk..kkk..'];
 const SPR={
@@ -568,6 +567,47 @@ Object.assign(SPR,{
   fafnir:mk(['k..k........k..k','kk.kk......kk.kk','.kkknnnnnnnnkkk.','..knnNnnnnNnnk..','.knnnnnnnnnnnnk.','.knyynnnnnnyynk.','.kkyykNnnNkyykk.','..knnnnnnnnnnk..','.knnnNnnnnNnnnk.','.kwnwnnnnnnwnwk.','..kkwnnoonnwkk..','...kkNoooNNkk...','....kkNooNkk....','.....kkkkkk.....'],{n:'#7a2a24',N:'#4a1612',y:'#ffd34d',w:'#efe6cf',o:'#ff7a1a'}),
   hel:mk(['...y.yyyy.y...','....kyyyyk....','...kkwwddkk...','..kwwwwdddddk.','..kwwcwdcdddk.','..kwwwwdddddk.','...kwwwwdddk..','..kkwwwddddkk.','.kwwwwwddddddk','kwwwwwwwdddddk','kwwwgwwwdgdddk','kwwwwwwwddddgk','kkwwwwwwddddkk','.kkwwwwwdddkk.','..kkwwwwddkk..','...kkkkkkkk...'],{w:'#efe6cf',d:'#1a1d27',c:'#9dffb0',g:'#6f7a8c',y:'#e3b84a'})
 });
+/* ---------- r11: new sprites (recolours of existing silhouettes plus a few new ones) ---------- */
+{
+  const sym=h=>h.map(r=>r+r.split('').reverse().join(''));
+  const REC=(k,pal)=>mk(SPR[k].rows,pal);
+  Object.assign(SPR,{
+    trollet:mk(WALKER,{n:'#6f8a5a',N:'#4a6a3a',c:'#ffd34d',d:'#3a3a2a',w:'#d9cfb4'}),
+    slinger:mk(ARCHER,{w:'#b8a888',W:'#8a7a5a',d:'#4a3a28'}),
+    gboar:mk(HOUND,{g:'#6a4a36',c:'#ffd34d',w:'#efe6cf'}),
+    jarl:mk(PROWS,{w:'#c8d0e0',G:'#8c93a0',g:'#5a6a88',s:'#d9a37a',b:'#5a6a88',B:'#3a4a68',r:'#3a5a9a',l:'#4a3220',L:'#2a1c10'}),
+    stoneskin:REC('golem',{d:'#7a7a70',o:'#8ab04a',r:'#d8d0a0'}),
+    shaman:mk(WALKER,{n:'#3a5a8a',N:'#24406a',c:'#9ad8ff',d:'#18283a',w:'#d8e8f8'}),
+    ogre:mk(WALKER,{n:'#8a6a50',N:'#5a4430',c:'#ff7a3a',d:'#2a2018',w:'#e0d0b0'}),
+    thrym:REC('golem',{d:'#6a7a8a',o:'#8ad8ff',r:'#ffffff'}),
+    drowned:mk(PROWS,{w:'#8ab0a8',G:'#5a8a88',g:'#3a6a6a',s:'#8fb8a8',S:'#6a9888',b:'#3a6a6a',B:'#244a4a',r:'#3a5a5a',l:'#2a4a44',L:'#1a3030'}),
+    seadog:mk(HOUND,{g:'#3a6a78',c:'#9aefff',w:'#d8f6f8'}),
+    crab:mk(sym(['kk.k...','kckck..','.kkkkkk','..kcdcc','.kcwccc','.kccccc','..kkkkk','.k.k.k.','k.k.k..']),{c:'#c8603a',w:'#ffb070',d:'#1a1018'}),
+    siren:REC('wraith',{c:'#8ad8e8',C:'#3a8aa0',d:'#103a50'}),
+    jelly:mk(sym(['...kkk','..kccc','.kcwcc','kccccc','kcccdc','kCCCCC','.kkkkk','..k.c.','..c.k.','.k.c..','..k.k.']),{c:'#ff9ae0',C:'#c05a9a',w:'#ffffff',d:'#4a1a3a'}),
+    harpooner:mk(ARCHER,{w:'#8ab0b0',W:'#5a8088',d:'#1a3a44'}),
+    tentacle:REC('treant',{n:'#2a8a8a',N:'#1a5a66',l:'#3a6a7a',L:'#244a58',c:'#ffe060',d:'#0a1a22'}),
+    kraken:REC('nidhogg',{n:'#2a6a8a',N:'#16405a',y:'#ffe060',w:'#d8f6f8',r:'#e04a7a'}),
+    gleam:REC('raven',{d:'#e8d890',c:'#ffffff'}),
+    dryad:mk(WALKER,{n:'#7aaa6a',N:'#4a7a44',c:'#ff9ad0',d:'#2a3a28',w:'#f0e8c8'}),
+    alfarcher:mk(ARCHER,{w:'#f0e8c8',W:'#c8c090',d:'#5a6a3a'}),
+    stag:mk(HOUND,{g:'#c8a050',c:'#ffffff',w:'#fff0c0'}),
+    lightbinder:mk(PROWS,{w:'#fff8d8',G:'#e8d8a0',g:'#c8b070',s:'#e8c8a0',b:'#f0e8c8',B:'#c8b888',r:'#e8c860',l:'#8a6a3a',L:'#5a4220'}),
+    blossom:REC('spore',{n:'#ff9ac8',N:'#d0609a',y:'#fff080',w:'#f0e8c8',c:'#4a2a3a'}),
+    moonguard:mk(PROWS,{w:'#e8ecf8',G:'#b8c0d8',g:'#8a94b8',s:'#e8c8a0',b:'#9aa4c8',B:'#6a74a0',r:'#7a8ad8',l:'#5a4a6a',L:'#3a2a4a'}),
+    warden:REC('treant',{n:'#8ac86a',N:'#5a9a44',l:'#c8b080',L:'#8a7048',c:'#fff080',d:'#2a3a1a'}),
+    delling:mk(WALKER,{n:'#fff0c0',N:'#e0c070',c:'#ff9a50',d:'#8a6a30',w:'#ffffff'}),
+    voidling:REC('raven',{d:'#2a1a4a',c:'#d09aff'}),
+    shade:mk(PROWS,{w:'#2a2040',G:'#1a1030',g:'#120a22',s:'#5a4a80',b:'#1a1030',B:'#0e0820',r:'#6a2a9a',l:'#120a22',L:'#0a0418'}),
+    watcher:mk(sym(['....kk','..kkww','.kwwwc','kwwwcd','kwwwcd','.kwwwc','..kkww','....kk','...k.k']),{w:'#e8e0f0',c:'#a060e0',d:'#10081e'}),
+    wisp:REC('wraith',{c:'#e8a0ff',C:'#a060d0',d:'#3a1a5a'}),
+    devourer:REC('golem',{d:'#2a1a40',o:'#c070ff',r:'#ffffff'}),
+    rift:REC('bomber',{R:'#3a1a6a',r:'#7a3ad0',y:'#e8c0ff',o:'#ffffff'}),
+    voidpriest:mk(WALKER,{n:'#3a2a6a',N:'#241a4a',c:'#d09aff',d:'#10081e',w:'#d8c8f8'}),
+    voidknight:mk(WALKER,{n:'#2a1a4a',N:'#160c2e',c:'#ff4aa0',d:'#0a0414',w:'#8a70c8'}),
+    ymir:REC('hel',{w:'#b8c8f0',d:'#120a28',c:'#ffffff',g:'#6a58a8',y:'#a888ff'})
+  });
+}
 
 /* ---------- data ---------- */
 const ET={
@@ -662,6 +702,87 @@ const ET={
       {id:'rain',w:2,min:30,max:999,wind:.6,rec:1,n:8,hr:24,delay:.95,dmgm:1,zone:'soul',pcol:'#c9a0ff',rc:'201,160,255'},
       {id:'pillars',w:1.5,min:50,max:999,wind:.7,rec:1,n:8,hr:20,delay:.8,step:.11,dmgm:.9,zone:'soul',pcol:'#c9a0ff',rc:'201,160,255'}]}
 };
+/* ---------- r11: new enemies for the four new biomes ---------- */
+Object.assign(ET,{
+  /* Утгард */
+  trollet:{n:'Тролль-подранок',spr:'trollet',hp:52,sp:32,r:5,dmg:12,xp:10,g:[2,5],kind:'melee',atkR:20,hitR:26,wind:.65,rec:.55,sc:1.15},
+  slinger:{n:'Метатель валунов',spr:'slinger',hp:34,sp:28,r:5,dmg:14,xp:11,g:[2,5],kind:'ranged',wind:.85,rec:.5,pv:70,pcol:'#a89a82',sc:1.05},
+  gboar:{n:'Вепрь Утгарда',spr:'gboar',hp:44,sp:58,r:5,dmg:13,xp:10,g:[2,4],kind:'lunge',atkR:58,wind:.45,lungeSp:240,lungeT:.3,rec:.65,sc:1.25},
+  jarl:{n:'Хускарл ётунов',spr:'jarl',hp:80,sp:27,r:6,dmg:16,xp:16,g:[4,8],kind:'melee',hint:'shield',atkR:22,hitR:28,wind:.7,rec:.6,shield:true,sc:1.2},
+  stoneskin:{n:'Каменная шкура',spr:'stoneskin',hp:125,sp:22,r:7,dmg:21,xp:22,g:[6,12],kind:'slam',atkR:34,wind:1,rec:1,slamR:40,armor:true,sc:1.45},
+  shaman:{n:'Шаман ётунов',spr:'shaman',hp:30,sp:28,r:5,dmg:11,xp:13,g:[3,7],kind:'ranged',wind:.7,rec:.45,shots:3,spread:.3,pv:85,pcol:'#9ad8ff',st:'chill',sc:1.1},
+  ogre:{n:'Огр-людоед',spr:'ogre',hp:390,sp:24,r:9,dmg:32,xp:95,g:[26,38],kind:'slam',atkR:40,wind:1,rec:1,slamR:50,nova:8,armor:true,elite:true,sc:2.2},
+  thrym:{n:'Трюм, владыка Утгарда',spr:'thrym',hp:2100,sp:26,r:12,dmg:32,xp:900,g:[200,290],kind:'boss',boss:true,elite:true,armor:true,sc:3.5,keep:55,st:'chill',
+    intro:'Врата Утгарда распахиваются. Трюм поднимается с каменного трона, и стены дрожат.',
+    moves:[
+      {id:'slam',w:2.2,min:0,max:95,r:62,wind:1,rec:.9,nova:12,novaV:90,pcol:'#bfd8e8'},
+      {id:'charge',w:1.6,min:80,max:260,wind:.7,sp:290,dur:.45,count:1,rec:.85,dmg:1.1},
+      {id:'rain',w:1.8,min:40,max:999,wind:.6,rec:1,n:6,hr:26,delay:1,dmgm:1,pcol:'#a89a82',rc:'168,154,130'},
+      {id:'summon',w:1,min:0,max:999,wind:1,rec:.9,key:'trollet',n:2,cap:6}],
+    moves2:[
+      {id:'ring',w:2,min:0,max:999,wind:.85,rec:1,n:14,waves:3,v:85,pcol:'#bfd8e8',spiral:true},
+      {id:'gust',w:1.4,min:0,max:95,wind:.9,rec:.8,r:105,knock:280,dmgm:.5},
+      {id:'charge',w:1.6,min:70,max:260,wind:.55,sp:310,dur:.4,count:3,rec:.7,dmg:1.1}]},
+  /* Чертоги Ран */
+  drowned:{n:'Утопленник',spr:'drowned',hp:44,sp:30,r:5,dmg:11,xp:9,g:[2,4],kind:'melee',atkR:19,hitR:25,wind:.6,rec:.55,st:'chill',sc:1.05},
+  seadog:{n:'Морской пёс',spr:'seadog',hp:30,sp:66,r:5,dmg:10,xp:9,g:[2,4],kind:'lunge',atkR:56,wind:.4,lungeSp:240,lungeT:.3,rec:.6,sc:1.15},
+  crab:{n:'Скальный краб',spr:'crab',hp:76,sp:24,r:6,dmg:15,xp:15,g:[4,8],kind:'melee',hint:'shield',atkR:21,hitR:27,wind:.7,rec:.6,shield:true,sc:1.2},
+  siren:{n:'Сирена',spr:'siren',hp:28,sp:32,r:5,dmg:10,xp:13,g:[3,7],kind:'ranged',wind:.65,rec:.4,shots:3,spread:.28,pv:80,pcol:'#7fe0ff',st:'chill',ghost:true,sc:1.1},
+  jelly:{n:'Ядовитая медуза',spr:'jelly',hp:30,sp:20,r:5,dmg:9,xp:12,g:[3,6],kind:'ranged',wind:.8,rec:.5,pv:55,pcol:'#ff9ae0',st:'poison',cloud:true,sc:1.15},
+  harpooner:{n:'Гарпунщик',spr:'harpooner',hp:34,sp:28,r:5,dmg:17,xp:12,g:[3,7],kind:'ranged',wind:.95,rec:.55,pv:125,pcol:'#d9d2b0',sc:1.05},
+  tentacle:{n:'Щупальце Ран',spr:'tentacle',hp:350,sp:22,r:9,dmg:30,xp:90,g:[26,38],kind:'slam',atkR:42,wind:1,rec:1,slamR:54,nova:6,armor:true,elite:true,st:'chill',sc:2.3},
+  kraken:{n:'Кракен, гнев Ран',spr:'kraken',hp:2000,sp:29,r:11,dmg:30,xp:860,g:[190,270],kind:'boss',boss:true,elite:true,armor:true,sc:2.9,keep:70,st:'chill',
+    intro:'Вода темнеет. Кракен поднимается из чертогов Ран, и волна накрывает зал.',
+    moves:[
+      {id:'volley',w:2.4,min:50,max:999,wind:.7,rec:.8,n:5,spread:.3,v:95,pcol:'#7fe0ff',bursts:2},
+      {id:'slam',w:1.6,min:0,max:80,r:56,wind:.9,rec:.9,zone:'ice'},
+      {id:'summon',w:1.1,min:0,max:999,wind:.9,rec:.9,key:'jelly',n:3,cap:6},
+      {id:'rain',w:1.8,min:30,max:999,wind:.6,rec:1,n:6,hr:26,delay:1,dmgm:.9,zone:'ice',pcol:'#9ad8ff',rc:'154,216,255'}],
+    moves2:[
+      {id:'charge',w:2,min:60,max:240,wind:.6,sp:290,dur:.5,count:2,rec:.8,dmg:1.1},
+      {id:'ring',w:1.8,min:0,max:999,wind:.8,rec:1,n:14,waves:2,v:80,pcol:'#7fe0ff'}]},
+  /* Альфхейм */
+  gleam:{n:'Светлячок-призрак',spr:'gleam',hp:11,sp:80,r:4,dmg:7,xp:3,g:[0,1],kind:'lunge',atkR:46,wind:.35,lungeSp:240,lungeT:.25,rec:.55,sc:1.1,swarm:3},
+  dryad:{n:'Дриада',spr:'dryad',hp:30,sp:30,r:5,dmg:11,xp:13,g:[3,7],kind:'ranged',wind:.7,rec:.45,shots:3,spread:.3,pv:85,pcol:'#9dffb0',sc:1.1},
+  alfarcher:{n:'Лучник альвов',spr:'alfarcher',hp:26,sp:30,r:5,dmg:11,xp:11,g:[3,6],kind:'ranged',wind:.5,rec:.35,pcol:'#fff0b0',sc:1.05},
+  stag:{n:'Золотой олень',spr:'stag',hp:48,sp:64,r:6,dmg:14,xp:12,g:[3,7],kind:'lunge',atkR:60,wind:.45,lungeSp:260,lungeT:.32,rec:.65,sc:1.3},
+  lightbinder:{n:'Светоносец',spr:'lightbinder',hp:26,sp:26,r:5,dmg:0,xp:14,g:[3,7],kind:'heal',wind:.9,rec:.8,sc:1.05},
+  blossom:{n:'Цветок-душегуб',spr:'blossom',hp:50,sp:0,r:6,dmg:10,xp:13,g:[3,7],kind:'ranged',wind:.9,rec:.5,shots:5,spread:.5,pv:75,pcol:'#ff9ad0',still:true,sc:1.3},
+  moonguard:{n:'Страж лунницы',spr:'moonguard',hp:84,sp:27,r:6,dmg:16,xp:16,g:[4,9],kind:'melee',hint:'shield',atkR:22,hitR:28,wind:.7,rec:.6,shield:true,sc:1.2},
+  warden:{n:'Страж рощи',spr:'warden',hp:360,sp:22,r:9,dmg:30,xp:92,g:[26,38],kind:'slam',atkR:42,wind:1,rec:1,slamR:52,nova:8,armor:true,elite:true,st:'poison',zone:'poison',sc:2.4},
+  delling:{n:'Дельлингр, владыка рассвета',spr:'delling',hp:2400,sp:30,r:10,dmg:33,xp:960,g:[210,300],kind:'boss',boss:true,elite:true,armor:true,sc:3.1,keep:65,st:'burn',
+    intro:'Свет становится слишком ярким. Дельлингр ступает из рассвета, и тени бегут от него.',
+    moves:[
+      {id:'volley',w:2.2,min:60,max:999,wind:.7,rec:.8,n:7,spread:.2,v:105,pcol:'#ffe8a0'},
+      {id:'pillars',w:2,min:50,max:999,wind:.7,rec:1,n:8,hr:20,delay:.8,step:.11,dmgm:.9,zone:'fire',pcol:'#ffd870',rc:'255,216,112'},
+      {id:'slam',w:1.4,min:0,max:85,r:56,wind:.9,rec:.9,nova:12,novaV:85,pcol:'#fff0c0'},
+      {id:'summon',w:1.1,min:0,max:999,wind:.9,rec:.9,key:'gleam',n:3,cap:8}],
+    moves2:[
+      {id:'ring',w:2,min:0,max:999,wind:.8,rec:1,n:16,waves:3,v:85,pcol:'#ffe8a0',spiral:true},
+      {id:'rain',w:2,min:30,max:999,wind:.6,rec:1,n:8,hr:24,delay:.95,dmgm:1,zone:'fire',pcol:'#ffd870',rc:'255,216,112'},
+      {id:'blink',w:1.4,min:70,max:999,wind:.7,rec:.4}]},
+  /* Гиннунгагап */
+  voidling:{n:'Тварь пустоты',spr:'voidling',hp:14,sp:84,r:4,dmg:8,xp:4,g:[0,1],kind:'lunge',atkR:46,wind:.33,lungeSp:250,lungeT:.25,rec:.55,sc:1.1,swarm:3},
+  shade:{n:'Тень',spr:'shade',hp:38,sp:44,r:5,dmg:17,xp:15,g:[4,8],kind:'melee',atkR:20,hitR:26,wind:.4,rec:.5,blink:true,sc:1.1},
+  watcher:{n:'Око бездны',spr:'watcher',hp:54,sp:0,r:6,dmg:11,xp:14,g:[3,7],kind:'ranged',wind:.9,rec:.5,shots:4,spread:.45,pv:80,pcol:'#d09aff',still:true,sc:1.3},
+  wisp:{n:'Блуждающий огонь',spr:'wisp',hp:24,sp:36,r:5,dmg:10,xp:13,g:[3,7],kind:'ranged',wind:.6,rec:.4,pv:75,pcol:'#e8a0ff',ghost:true,sc:1.1},
+  devourer:{n:'Пожиратель',spr:'devourer',hp:155,sp:22,r:8,dmg:25,xp:26,g:[7,14],kind:'slam',atkR:36,wind:1,rec:1,slamR:44,armor:true,sc:1.6},
+  rift:{n:'Сгусток пустоты',spr:'rift',hp:18,sp:74,r:4,dmg:21,xp:9,g:[1,3],kind:'boom',atkR:24,wind:.8,rec:1,slamR:46,sc:1.2},
+  voidpriest:{n:'Жрец пустоты',spr:'voidpriest',hp:36,sp:25,r:5,dmg:0,xp:15,g:[3,7],kind:'summon',minion:'voidling',wind:1,rec:1,sc:1.1},
+  voidknight:{n:'Рыцарь Бездны',spr:'voidknight',hp:400,sp:26,r:9,dmg:34,xp:98,g:[28,40],kind:'slam',atkR:40,wind:.95,rec:1,slamR:50,nova:10,armor:true,elite:true,sc:2.3},
+  ymir:{n:'Имир, первый великан',spr:'ymir',hp:2800,sp:30,r:11,dmg:36,xp:1100,g:[250,350],kind:'boss',boss:true,elite:true,armor:true,sc:3.2,keep:60,st:'chill',
+    intro:'Пустота шевелится. Имир, первый из великанов, открывает глаза в Гиннунгагапе.',
+    moves:[
+      {id:'slam',w:1.5,min:0,max:85,r:60,wind:.9,rec:.9,nova:14,novaV:85,pcol:'#c8b0ff'},
+      {id:'blink',w:1.5,min:70,max:999,wind:.7,rec:.4},
+      {id:'ring',w:2,min:0,max:999,wind:.8,rec:1,n:12,waves:2,v:85,pcol:'#c8b0ff',spiral:true},
+      {id:'summon',w:1.1,min:0,max:999,wind:1,rec:.9,key:'voidling',n:3,cap:8},
+      {id:'volley',w:1.6,min:80,max:999,wind:.7,rec:.8,n:7,spread:.18,v:100,pcol:'#d09aff'}],
+    moves2:[
+      {id:'rain',w:2,min:30,max:999,wind:.6,rec:1,n:8,hr:24,delay:.95,dmgm:1,zone:'soul',pcol:'#c9a0ff',rc:'201,160,255'},
+      {id:'pillars',w:1.6,min:50,max:999,wind:.7,rec:1,n:8,hr:20,delay:.8,step:.11,dmgm:.9,zone:'soul',pcol:'#c9a0ff',rc:'201,160,255'},
+      {id:'gust',w:1.3,min:0,max:100,wind:.9,rec:.8,r:110,knock:300,dmgm:.5}]}
+});
 const SK={
   berserk:{n:'Ярость берсерка',s:'Ярость',mp:10,cd:l=>15-2*l,d:l=>`+${30+10*l}% к урону, удары быстрее, ${5+l} с`},
   skies:{n:'Гнев небес',s:'Небеса',mp:14,cd:l=>10-l,d:l=>`Молнии бьют ${2+l} ближайших врагов: ${22+8*l} урона и оглушение`},
@@ -798,6 +919,69 @@ const GEAR=[
  ['n_fenr','neck','Зуб Фенрира',4,{dmg:16,ls:6,crit:6},'Тянется к горлу сам.'],
  ['n_garm','neck','Ошейник Гарма',5,{dmg:16,ls:8,hp:45,th:6,kh:3},'Цепь порвана, пёс на свободе, а ошейник у тебя.']
 ];
+GEAR.push(
+ /* мечи */
+ ['sw_sea','weapon','Меч морского дозора',2,{dmg:11,hp:8,chill:8},'Солёная сталь не ржавеет.'],
+ ['sw_ulf','weapon','Ульфберт',3,{dmg:15,crit:8,reach:6},'Клеймо мастера на клинке. Подделок не счесть.'],
+ ['sw_alf','weapon','Клинок рассвета',3,{dmg:13,mp:12,reg:.3,crit:5},'Выкован из света альвов.'],
+ ['sw_giant','weapon','Тесак великана',3,{dmg:24,as:-8,arm:2},'Слишком велик для людей, но ты справишься.'],
+ ['sw_valh','weapon','Клинок Вальхаллы',4,{dmg:26,hp:20,kh:2,crit:6},'Им бились павшие, что пируют до сих пор.'],
+ ['sw_void','weapon','Осколок Пустоты',4,{dmg:28,sdm:15,crit:10,hp:-10},'Режет не плоть, а место, где она была.'],
+ /* топоры */
+ ['axe_sea','weapon','Секира гарпунщика',2,{dmg:11,reach:8,hp:6},'С крюком, чтобы тянуть добычу из воды.'],
+ ['axe_troll','weapon','Секира тролля',2,{dmg:13,hp:10,as:-4},'Выломана вместе с куском двери.'],
+ ['axe_alf','weapon','Лунный топор',3,{dmg:13,crit:9,as:6},'Лезвие чуть светится в темноте.'],
+ ['axe2_giant','weapon','Секира Утгарда',3,{dmg:23,as:-6,arm:3,th:2},'Каждый замах сдвигает воздух.'],
+ ['axe2_void','weapon','Жнец Пустоты',4,{dmg:25,ls:5,sdm:10,as:-4},'Зубцы жадно тянутся к чужой жизни.'],
+ /* молоты */
+ ['ham_giant','weapon','Дубина великана',2,{dmg:16,hp:12,as:-8},'Срубленное дерево с камнем на конце.'],
+ ['ham_tide','weapon','Молот прилива',3,{dmg:18,reach:10,chill:15},'Бьёт, как волна о скалу.'],
+ ['ham_thrym','weapon','Дробитель Трюма',5,{dmg:44,reach:14,th:8,chill:25,crit:8},'Молот, что вернул Тору владыка Утгарда. Почти вернул.'],
+ /* копья */
+ ['spear_trid','weapon','Трезубец утопленника',2,{dmg:9,reach:15,chill:10},'Тянет вниз всё, до чего достанет.'],
+ ['spear_alf','weapon','Копьё лунных альвов',3,{dmg:10,reach:20,spd:5,crit:6},'Лёгкое, как лунный луч.'],
+ ['spear_valh','weapon','Копьё Вальхаллы',4,{dmg:15,reach:24,kh:2,crit:10},'Брошено один раз, а вернулось тысячу.'],
+ ['spear_ran','weapon','Трезубец Ран',5,{dmg:38,reach:26,chill:35,ls:8,crit:10},'Вода слушается того, кто держит его.'],
+ /* кинжалы */
+ ['dag_coral','weapon','Коралловый кинжал',2,{dmg:6,as:15,chill:8,crit:6},'Остриё вросло в рифы тысячу лет.'],
+ ['dag_alf','weapon','Шип роз',3,{dmg:8,as:18,hpr:.3,crit:10},'Лечит того, кто колет первым.'],
+ ['dag_void','weapon','Игла Пустоты',4,{dmg:12,as:24,crit:16,cdm:50,hp:-12},'Тонкая, как отсутствие.'],
+ /* косы */
+ ['sc_tide','weapon','Коса отлива',3,{dmg:15,reach:8,chill:12,ls:3},'Забирает тех, кого не забрало море.'],
+ ['sc_void','weapon','Серп Гиннунгагап',4,{dmg:22,sdm:20,ls:5,reach:10},'Жнёт то, чего ещё нет.'],
+ /* шлемы */
+ ['h_antler','helm','Оленьи рога',2,{spd:5,dodge:4,hp:8},'Лесной дух сам выбирает носителя.'],
+ ['h_troll','helm','Шлем-череп тролля',2,{arm:7,dmg:5,hp:10},'Тролли и без шлема тупы, а в нём вдвойне.'],
+ ['h_sea','helm','Шлем ныряльщика',2,{arm:6,hp:10,hpr:.3},'Медь позеленела, но держит.'],
+ ['h_coral','helm','Коралловая корона',3,{mp:20,sdm:10,hp:15},'Растёт, пока носишь.'],
+ ['h_giant','helm','Рогатый шлем хускарла',3,{arm:10,hp:20,th:2},'Ётунская работа: тяжёлый и честный.'],
+ ['h_alf','helm','Лавровый венец',3,{mp:20,reg:.4,crit:6,dodge:4},'Листья не вянут от сотни зим.'],
+ ['h_valh','helm','Шлем эйнхерия',4,{arm:12,hp:28,crit:6,kh:2},'Золото сверху, шрамы внутри.'],
+ ['h_void','helm','Маска Безликого',4,{sdm:25,mp:25,dodge:7,arm:6},'Под ней нет лица. Это не мешает видеть.'],
+ ['h_delling','helm','Венец Дельлингра',5,{arm:12,mp:40,reg:1,crit:12,xpf:25,hp:30},'Рассвет, который можно надеть.'],
+ /* броня */
+ ['a_kelp','armor','Плащ из водорослей',1,{arm:4,hpr:.3,hp:8},'Скользкий и цепкий.'],
+ ['a_troll','armor','Шкура тролля',2,{arm:9,hp:18,as:-3},'Пахнет болотом и победой.'],
+ ['a_sea','armor','Чешуя утопленника',2,{arm:8,hp:12,chill:6},'Холодная, как дно.'],
+ ['a_bark','armor','Кора Альфхейма',2,{arm:8,hpr:.5,hp:14},'Дерево помнит, как лечить.'],
+ ['a_star','armor','Звёздная вуаль',3,{arm:9,dodge:6,mp:20,spd:4},'Не уверен, что она вообще есть.'],
+ ['a_giant','armor','Доспех хускарла',3,{arm:15,hp:22,th:3},'Рассчитан на тех, кто выше на голову.'],
+ ['a_alf','armor','Одеяние света',3,{arm:8,mp:30,reg:.5,cdr:6},'Ткань, сплетённая из рассвета.'],
+ ['a_valh','armor','Латы эйнхерия',4,{arm:19,hp:35,kh:3,dmg:6},'Каждая вмятина — славный бой.'],
+ ['a_void','armor','Покров Пустоты',4,{arm:12,sdm:20,dodge:8,mp:25},'Пустота обнимает крепче доспеха.'],
+ ['a_ymir','armor','Плоть Имира',5,{arm:26,hp:60,chill:25,th:8,hpr:1.5},'Из тела первого великана сделали мир. Из куска — броню.'],
+ /* кольца и амулеты */
+ ['r_troll','ring','Железный палец',2,{dmg:5,hp:12},'Принадлежал тролльему вождю. Потом не принадлежал.'],
+ ['r_tide','ring','Кольцо прилива',2,{chill:12,mp:12,hp:8},'Нашёптывает о береге.'],
+ ['r_alf','ring','Нить рассвета',3,{hp:15,reg:.4,crit:4},'Греет даже в Гиннунгагапе.'],
+ ['r_valh','ring','Перстень эйнхерия',4,{dmg:9,kh:2,hp:20,crit:5},'Пир не кончается, пока носишь.'],
+ ['r_void','ring','Кольцо бездны',4,{sdm:18,dodge:6,ls:3},'Пустота внутри кольца важнее металла.'],
+ ['n_giant','neck','Клык великана',2,{dmg:7,hp:12},'Размером с твоё предплечье.'],
+ ['n_pearl','neck','Жемчужина Ран',3,{mp:18,hpr:.4,chill:10},'Раковина закрылась и не откроется.'],
+ ['n_alf','neck','Слеза рассвета',3,{hp:20,mp:15,xpf:10},'Роса, что не высыхает.'],
+ ['n_valh','neck','Рог Хеймдалля',4,{cdr:12,hp:25,arm:6,mp:20},'Его слышно до самых врат.'],
+ ['n_void','neck','Звёздный осколок',4,{sdm:20,cdr:10,crit:8},'Холодный свет не нашего неба.']
+);
 const GI0={};for(const g of GEAR)GI0[g[0]]={id:g[0],base:g[0],slot:g[1],n:g[2],bn:g[2],r:g[3],st:g[4],d:g[5],lv:1,up:0};
 const bid=s=>{if(!s)return s;const i=s.indexOf('~');return i<0?s:s.slice(0,i)};
 const mkId=(b,lv,up)=>b+'~'+Math.max(1,lv|0)+'~'+(up|0);
@@ -843,6 +1027,18 @@ const ICON0={
   n_skull:['skull','#6b4a2f','#e7dec6'],n_feath:['feather','#c8d0e0','#2a3040'],n_coin:['coin','#6b4a2f','#e3b84a'],n_amber:['tear','#8a6a48','#e39a2a','#e39a2a'],n_bear:['fang','#5a3a24','#efe6cf'],n_horn:['nhorn','#8a6a48','#efe6cf'],
   n_wind:['feather','#8c93a0','#e8f6ff','#bfe9ff'],n_death:['skull','#3a3a44','#c9c4b0','#9dffb0'],n_frost:['gem','#8c93a0','#9ad8ff','#7fd0ff'],n_sun:['gem','#e3b84a','#ffe066','#ffd34d'],n_fenr:['fang','#6f7a8c','#e8f0ff','#cfe9ff'],n_garm:['skull','#4a2a2a','#e0e0d0','#ff4a3a']
 };
+Object.assign(ICON0,{
+  sw_sea:['sword','#a8c8d0','#3a5a60'],sw_ulf:['sword','#dfe6ee','#5a3d28'],sw_alf:['sword','#d8f0c0','#7a6a30','#ffe8a0'],sw_giant:['sword','#8a8a94','#4a3a2a'],sw_valh:['sword','#ece4c8','#c9a54a','#ffd34d'],sw_void:['sword','#6a4aa8','#14082a','#a888ff'],
+  axe_sea:['axe','#7a8a90','#5a4a38'],axe_troll:['axe','#8a8a6a','#5a4a30'],axe_alf:['axe','#d8e0c0','#7a6a40','#ffe8a0'],axe2_giant:['axe2','#7a7a84','#4a3a2a'],axe2_void:['axe2','#6a4aa8','#1a0e30','#a888ff'],
+  ham_giant:['hammer','#8a8478','#5a4030'],ham_tide:['hammer','#5a9aa8','#4a3a2a','#7fe0ff'],ham_thrym:['hammer','#bfe0ff','#3a4a5a','#9ad8ff'],
+  spear_trid:['spear','#4a7a88','#6a5a3a'],spear_alf:['spear','#e8e0c0','#9a8a50','#ffe8a0'],spear_valh:['spear','#ece4c8','#c9a54a','#ffd34d'],spear_ran:['spear','#2a6a88','#3a5a6a','#7fe0ff'],
+  dag_coral:['dagger','#e08a8a','#5a3a3a'],dag_alf:['dagger','#f0e0a0','#6a5a2a','#ff9ad0'],dag_void:['dagger','#6a4aa8','#14082a','#a888ff'],
+  sc_tide:['scythe','#8ad0d8','#3a5a60','#7fe0ff'],sc_void:['scythe','#a888ff','#14082a','#c9b8ff'],
+  h_antler:['horn','#6a5a3a','#d8c8a0'],h_troll:['mask','#cfc8b0','#6a5a40'],h_sea:['full','#8a7a50','#c0a060'],h_coral:['crown','#e08a8a','#f0c0b8','#ff9a90'],h_giant:['full','#7a7a88','#c08a3a'],h_alf:['crown','#d8e8b0','#e3c860','#ffe8a0'],h_valh:['full','#d8d0b8','#d1ad4e','#e3b84a'],h_void:['mask','#2a1a48','#a888ff','#a888ff'],h_delling:['crown','#fff0c0','#ffd870','#ffe8a0'],
+  a_kelp:['cloak','#3a6a4a','#7ac0a0'],a_troll:['fur','#6a6a50','#a09870'],a_sea:['scale','#4a8a8a','#8ad0d0'],a_bark:['tunic','#6a8a50','#c0d890'],a_star:['cloak','#3a3a6a','#c8c0ff','#c8c0ff'],a_giant:['plate','#8a8a94','#c08a3a'],a_alf:['cloak','#e8e0c0','#9ad8a0','#ffe8a0'],a_valh:['plate','#e0d8c0','#d1ad4e','#e3b84a'],a_void:['cloak','#2a1a4a','#a888ff','#a888ff'],a_ymir:['plate','#a8c0e0','#e8f4ff','#7fd0ff'],
+  r_troll:['band','#8a8a6a','#5a5a40'],r_tide:['ring','#5ab0c0','#d8f6f8','#7fe0ff'],r_alf:['ring','#f0e0a0','#fff8d8','#ffe8a0'],r_valh:['ring','#d1ad4e','#fff0c0','#ffd34d'],r_void:['band','#3a2a6a','#c0a8ff','#a888ff'],
+  n_giant:['fang','#8a7a64','#efe6cf'],n_pearl:['tear','#8ad8e0','#e8fcff','#7fe0ff'],n_alf:['gem','#d8e8b0','#fff8d8','#ffe8a0'],n_valh:['nhorn','#d1ad4e','#efe6cf'],n_void:['gem','#4a3a8a','#c8b0ff','#a888ff']
+});
 const ICON=new Proxy(ICON0,{get(t,k){return typeof k==='string'?t[bid(k)]:t[k]}});
 /* ---- item painter v2 (inventory sketches, held weapons) ---- */
 const ICONS2=(function(){
@@ -984,7 +1180,13 @@ const SWS={
  sw_valk:{type:'plain',hw:.115,g:'wing',gw:.37,pm:'disc',mc:'#d1ad4e',len:1.9,inlay:1},
  sw_frost:{type:'ice',hw:.13,g:'curved',gw:.33,pm:'gem',mc:'#6a9ac8',len:1.88,gemc:'#7fd0ff',frost:1},
  sw_surtr:{type:'flame',hw:.2,g:'curved',gw:.4,pm:'ball',mc:'#3a2a24',len:1.92,heat:1,f1:.05},
- sw_rusty:{type:'broad',hw:.145,g:'crude',gw:.27,pm:'disc',mc:'#55463a',len:1.78,nick:1,rust:1,f1:.3}
+ sw_rusty:{type:'broad',hw:.145,g:'crude',gw:.27,pm:'disc',mc:'#55463a',len:1.78,nick:1,rust:1,f1:.3},
+ sw_sea:{type:'leaf',hw:.12,g:'curved',gw:.3,pm:'disc',mc:'#6a8a90',len:1.86},
+ sw_ulf:{type:'leaf',hw:.125,g:'wing',gw:.36,pm:'lobed',mc:'#8c8f98',len:1.92,inlay:1},
+ sw_alf:{type:'leaf',hw:.11,g:'wing',gw:.34,pm:'gem',mc:'#d1ad4e',len:1.94,gemc:'#9dffb0'},
+ sw_giant:{type:'broad',hw:.2,g:'crude',gw:.42,pm:'ball',mc:'#55504a',len:1.9,nick:1},
+ sw_valh:{type:'plain',hw:.12,g:'wing',gw:.4,pm:'gem',mc:'#d1ad4e',len:1.94,inlay:1,gemc:'#ffd34d'},
+ sw_void:{type:'dark',hw:.12,g:'wing',gw:.36,pm:'gem',mc:'#2a1a48',len:1.94,runes:1,gemc:'#a888ff'}
 };
 function paintSword(T){
   const c=T.c,S=SWS[T.id]||SWS.sw_bond,cx=.5,yb=2.0,base=T.c1;
@@ -1011,12 +1213,17 @@ function paintSword(T){
 const AXS={
  axe_rust:{reach:1.82,yt:.3,yb:1.2,beard:0,rust:1,hc:'#9a7b5b'},
  axe_beard:{reach:1.84,yt:.26,yb:1.62,beard:1,hc:'#6b4a2f',edge:1},
- axe_blood:{reach:1.86,yt:.24,yb:1.64,beard:1,blood:1,spike:1}
+ axe_blood:{reach:1.86,yt:.24,yb:1.64,beard:1,blood:1,spike:1},
+ axe_sea:{reach:1.84,yt:.26,yb:1.5,beard:1,hc:'#7a8a90',edge:1},
+ axe_troll:{reach:1.82,yt:.28,yb:1.3,beard:0,hc:'#8a8a6a',spike:1},
+ axe_alf:{reach:1.86,yt:.24,yb:1.6,beard:1,hc:'#d8e0c0',edge:1}
 };
 const AX2={
  axe_wood:{reach:1.88,yt:.22,yb:1.22,wide:1,hc:'#7a5230'},
  axe_fenrir:{reach:1.9,yt:.18,yb:1.3,teeth:1,glowc:1},
- axe2_jotun:{reach:1.9,yt:.2,yb:1.28,ice:1}
+ axe2_jotun:{reach:1.9,yt:.2,yb:1.28,ice:1},
+ axe2_giant:{reach:1.92,yt:.18,yb:1.3,wide:1,hc:'#7a7a84'},
+ axe2_void:{reach:1.92,yt:.16,yb:1.3,teeth:1,glowc:1}
 };
 function axeHeadPath(c,S,x0){
   const{reach,yt,yb}=S,mid=(yt+yb)/2,r=S.beard?.1:.14;
@@ -1093,7 +1300,10 @@ function paintAxe2(T){
 const HMS={
  ham_storm:{hc:'#7c8aa6',lightning:1,hw:.75,ht:.7,wood:'#5a3d28'},
  ham_forge:{hc:'#8a7a6a',blocky:1,hw:.65,ht:.78,wood:'#4a3322'},
- ham_mjol:{hc:'#c8d0e0',knots:1,hw:.7,ht:.68,wood:'#6b4a2f',short:1}
+ ham_mjol:{hc:'#c8d0e0',knots:1,hw:.7,ht:.68,wood:'#6b4a2f',short:1},
+ ham_tide:{hc:'#5a9aa8',knots:1,hw:.72,ht:.7,wood:'#4a3a2a'},
+ ham_giant:{hc:'#8a8478',blocky:1,hw:.7,ht:.8,wood:'#5a4030'},
+ ham_thrym:{hc:'#bfe0ff',knots:1,hw:.76,ht:.7,wood:'#3a4a5a'}
 };
 function paintHammer(T){
   const c=T.c,S=HMS[T.id]||HMS.ham_storm,r=icRng(T.id),hx=1,x0=hx-S.hw,x1=hx+S.hw,y0=.2,y1=y0+S.ht,dx=.17,dy=.12;
@@ -1135,7 +1345,11 @@ const SPS={
  spear_gung:{hd:'leaf',hw:.15,len:.85,runes:1,col:'#8a6a3a'},
  spear_ash:{hd:'plain',hw:.12,len:.7,col:'#9a7b5b'},
  spear_valk:{hd:'leaf',hw:.13,len:.88,wings:1,col:'#c9a54a'},
- spear_ice:{hd:'ice',hw:.13,len:.95,frost:1,col:'#4a6a8a'}
+ spear_ice:{hd:'ice',hw:.13,len:.95,frost:1,col:'#4a6a8a'},
+ spear_trid:{hd:'plain',hw:.14,len:.8,col:'#4a7a88'},
+ spear_alf:{hd:'leaf',hw:.13,len:.9,wings:1,col:'#e8e0c0'},
+ spear_valh:{hd:'leaf',hw:.14,len:.92,runes:1,wings:1,col:'#d1ad4e'},
+ spear_ran:{hd:'ice',hw:.15,len:1,frost:1,col:'#2a6a88'}
 };
 function paintSpear(T){
   const c=T.c,S=SPS[T.id]||SPS.spear_ash,cx=.5,r=icRng(T.id),yb=1.0;
@@ -1165,7 +1379,10 @@ const DGS={
  dag_bone:{type:'dag',hw:.115,g:'bar',gw:.14,pm:'disc',mc:'#e7dec6',bone:1},
  dag_rune:{type:'dag',hw:.11,g:'bar',gw:.2,pm:'lobed',mc:'#8c93a0',runes:1},
  dag_shadow:{type:'kris',hw:.13,g:'curved',gw:.22,pm:'gem',mc:'#4a3a6a',curve:.1,gemc:'#b57cd6'},
- dag_hugin:{type:'dag',hw:.115,g:'wing',gw:.24,pm:'ball',mc:'#3a2a30',hugin:1}
+ dag_hugin:{type:'dag',hw:.115,g:'wing',gw:.24,pm:'ball',mc:'#3a2a30',hugin:1},
+ dag_coral:{type:'dag',hw:.115,g:'bar',gw:.16,pm:'disc',mc:'#e08a8a',bone:1},
+ dag_alf:{type:'kris',hw:.12,g:'curved',gw:.2,pm:'gem',mc:'#d1ad4e',curve:.08,gemc:'#ff9ad0'},
+ dag_void:{type:'kris',hw:.13,g:'wing',gw:.24,pm:'gem',mc:'#2a1a48',curve:.12,gemc:'#a888ff'}
 };
 function paintDagger(T){
   const c=T.c,S=DGS[T.id]||DGS.dag_rune,cx=.5,yb=1.0,r=icRng(T.id);
@@ -1185,7 +1402,9 @@ const SCS={
  sc_reaper:{col:'#8c93a0',bone:0},
  sc_bone:{col:'#e7dec6',bone:1},
  sc_moon:{col:'#e8e4ff',moon:1},
- sc_hel:{col:'#d9d2b0',hel:1}
+ sc_hel:{col:'#d9d2b0',hel:1},
+ sc_tide:{col:'#8ad0d8',bone:0},
+ sc_void:{col:'#a888ff',moon:1}
 };
 function paintScythe(T){
   const c=T.c,S=SCS[T.id]||SCS.sc_reaper,r=icRng(T.id);
@@ -1647,7 +1866,7 @@ try{
   if(c.diff===0||c.diff===1||c.diff===2)diff=c.diff;
 }catch(e){}
 const ZCOL={poison:'130,210,70',fire:'255,110,40',ice:'154,216,255',soul:'180,140,255'};
-const MYTH={garm:'n_garm',hrym:'h_hrym',nidhogg:'a_nid',surtr:'sw_surtr',fafnir:'r_andv',hel:'sc_hel'};
+const MYTH={garm:'n_garm',hrym:'h_hrym',nidhogg:'a_nid',surtr:'sw_surtr',fafnir:'r_andv',hel:'sc_hel',kraken:'spear_ran',thrym:'ham_thrym',delling:'h_delling',ymir:'a_ymir'};
 const MODES={dungeon:{n:'Подземелье',d:'Этаж за этажом: новый мир каждые три этажа и страж в конце третьего.',go:'Начать сагу',lab:'Этаж'},arena:{n:'Арена',d:'Бесконечные волны на одной арене. Враги крепнут с каждой волной, каждая пятая — босс.',go:'Начать сагу',lab:'Волна'}};
 const getBest=(m,d)=>bestR[(m||mode)+':'+(d===undefined?diff:d)]||0;
 const depthNow=()=>mode==='arena'&&arenaS?arenaS.wave:floorN;
@@ -1880,6 +2099,46 @@ const THEMES={
       if(i===8&&MR()<.35)mnz(t,3,1200,500,9,.01,'bandpass',1);
     }}
 };
+Object.assign(THEMES,{
+  utgard:{bpm:58,sc:'aeo',root:40,wet:.7,dcut:240,dlfo:.04,
+    drone:[[28,'sawtooth',.045,-5],[28,'sawtooth',.04,5],[35,'sine',.05,0],[40,'triangle',.02,0]],bed:{f:260,q:.8,v:.015,lfo:.05},prog:[0,5,3,4],
+    step(S,i,t,sec,th){
+      const ch=chordOf(th,th.prog[S%4],3);
+      if(i===0)mtaiko(t,.07);else if(i===8&&S%2===0)mtaiko(t,.05);else if(i===11&&MR()<.3)mtaiko(t,.03);
+      if(i===0&&S%2===0){mbrass(ch[0],t,sec*30,.02);mbrass(ch[2],t,sec*30,.014)}
+      if(i===0&&S%4===2)mchoir(ch[0]+12,t,sec*40,.02,'o');
+      if(i===4&&MR()<.25)mnz(t,.6,500,250,5,.012,'bandpass',.8);
+    }},
+  sea:{bpm:62,sc:'dor',root:50,wet:1,dcut:600,dlfo:.12,
+    drone:[[31,'sine',.05,0],[38,'sine',.03,4],[50,'triangle',.01,-6]],bed:{f:900,q:.9,v:.028,lfo:.1,sweep:.12},prog:[0,3,5,4],
+    step(S,i,t,sec,th){
+      const ch=chordOf(th,th.prog[S%4],3);
+      if(i%2===0&&MR()<.55)mbell(ch[((i/2)+S)%3|0]+24,t,.022,2.6,[1,2.01,3.02]);
+      if(i===0&&S%2===0)mpad(ch.map(m=>m+12),t,sec*32,.012,'sine',3.5);
+      if(i===8&&S%4===1)mphrase(th,t,sec,2,4,.03,(m,tt,dur,v)=>mflute(m,tt,dur,v),0);
+      if(MR()<.04)mnz(t,.08,900,1800,6,.012,'bandpass');
+    }},
+  alfheim:{bpm:78,sc:'lyd',root:55,wet:.6,dcut:900,dlfo:.05,
+    drone:[[43,'sine',.04,0],[50,'triangle',.02,3]],bed:{f:3000,q:.6,v:.01,lfo:.07,type:'highpass'},prog:[0,4,5,3],
+    step(S,i,t,sec,th){
+      const ch=chordOf(th,th.prog[S%4],4);
+      if(i%2===0){const pat=[0,2,1,3,2,1,3,2];mpluck(ch[pat[(i/2)%8]]+12,t,.05,.8,'triangle',5)}
+      if(i===0&&S%2===0)mpad(ch.map(m=>m+12),t,sec*32,.012,'triangle',2.5);
+      if(i===0&&MR()<.4)mbell(ch[0]+36,t,.02,3,[1,2.76,5.4]);
+      if(i===8&&S%4===1)mphrase(th,t,sec,3,5,.035,(m,tt,dur,v)=>mflute(m,tt,dur,v));
+      if(i%4===1&&MR()<.02)mbird(t);
+    }},
+  void:{bpm:42,sc:'phr',root:36,wet:1,dcut:200,dlfo:.02,
+    drone:[[24,'sine',.07,0],[31,'sine',.045,-7],[36,'sawtooth',.011,9],[48,'sine',.014,13]],bed:{f:140,q:1.2,v:.033,lfo:.02,sweep:.032},prog:[0,1,6,1],
+    step(S,i,t,sec,th){
+      const ch=chordOf(th,th.prog[S%4],3);
+      if(i===0&&S%2===0)mpad([ch[0]+12,ch[1]+12,ch[0]+18],t,sec*32,.018,'sine',5);
+      if(i===0&&S%4===0)mkick(t,.12,60,22,1.8);
+      if(i%4===2&&MR()<.08)mbell(th.root+30+Math.floor(MR()*8),t,.025,6,[1,1.414,2.83]);
+      if(i===0&&S%4===2)mchoir(ch[0]+24,t,sec*48,.016,'a');
+      if(i===8&&MR()<.25)mnz(t,4,900,200,6,.012,'bandpass',2);
+    }}
+});
 function buildMusic(){
   const mg=ac.createGain();mg.gain.value=musicOn?.8:0;mg.connect(ac.destination);
   const len=Math.floor(ac.sampleRate*3.8),ir=ac.createBuffer(2,len,ac.sampleRate);
@@ -2010,8 +2269,35 @@ const BIOMES=[
   ch:[[48,55,59,64],[45,52,57,60],[50,57,60,65],[47,52,55,62]],bells:[72,76,79,81,84,88]}
 ];
 let biome=0;
-const NBIO=6;
-const biomeOf=f=>Math.floor((f-1)/3)%NBIO;
+/* ---------- r11: four new biomes (indices 7..10; the village keeps 6) ---------- */
+BIOMES.push(
+ {id:'utgard',n:'Утгард, крепость великанов',intro:'Каменные залы, построенные не для людей. Тролли дерутся у очагов размером с дом.',
+  fl:['#2a2620','#2e2924','#26221d'],face:['#5a5046','#3a332b','#8a7a64'],top:['#14110e','#1b1713','#161310'],deco:'rune',dark:'8,6,4',amb:'dust',
+  sp:['#a89a82','#e0d4bc','#d98a3a'],liq:['#2a2018','#5a4630','#8a6a40'],liqDmg:0,liqN:'болотная жижа',
+  pool:[['trollet',4,0],['slinger',2.4,0],['gboar',2.2,0],['jarl',1.8,1],['shaman',1.5,1],['stoneskin',1.5,1],['healer',1,1],['spear',1,2],['shield',1.2,2],['necro',1,2]],
+  elite:['ogre'],boss:'thrym',
+  ch:[[40,47,52,55],[41,48,53,57],[43,50,55,59],[38,45,50,53]],bells:[67,69,72,74,76]},
+ {id:'sea',n:'Чертоги Ран',intro:'Корабли без экипажей и вода без дна. Ран собирает всех, кого забрало море.',
+  fl:['#12303a','#143642','#102a34'],face:['#2a6a78','#1a4452','#6ac0c8'],top:['#08161c','#0d1f27','#0a1a21'],deco:'moss',dark:'2,10,16',amb:'bubble',
+  sp:['#7fc8d0','#d8f6f8','#2a8aa0'],liq:['#0a3a52','#1f7aa0','#8ad8f0'],liqDmg:0,liqN:'глубокая вода',
+  pool:[['drowned',4,0],['seadog',2.6,0],['crab',2,0],['siren',2,1],['jelly',1.8,1],['harpooner',1.8,1],['healer',1,1],['necro',1.2,2],['hound',1,2],['shield',1.2,2]],
+  elite:['tentacle'],boss:'kraken',
+  ch:[[50,57,60,64],[53,57,60,64],[48,55,59,62],[46,53,57,62]],bells:[74,77,79,81,84]},
+ {id:'alfheim',n:'Альфхейм, сияющая роща',intro:'Свет здесь слишком ласков. Роща помнит каждого, кто не вернулся из её рассвета.',
+  fl:['#2c3a36','#31423c','#273430'],face:['#5a7a6a','#3a5448','#e8d8a0'],top:['#121c1a','#182420','#141e1c'],deco:'gold',dark:'22,38,32',dayA:.72,amb:'pollen',
+  sp:['#d8f0c0','#fff8d8','#ff9ad0'],liq:['#2a3a5a','#6a8ad0','#cfe0ff'],liqDmg:0,liqN:'лунная вода',
+  pool:[['gleam',2.6,0],['dryad',2.4,0],['alfarcher',2,0],['stag',2,0],['lightbinder',1.2,1],['blossom',1.8,1],['moonguard',1.8,1],['witch',1.2,1],['assassin',1.2,2],['necro',1,2]],
+  elite:['warden'],boss:'delling',
+  ch:[[55,59,62,66],[57,61,64,68],[52,56,59,63],[54,58,61,66]],bells:[79,83,86,88,91]},
+ {id:'void',n:'Гиннунгагап',intro:'До мира была пустота. Она всё ещё голодна.',
+  fl:['#161226','#1a1530','#130f22'],face:['#3a2a6a','#241a44','#a888ff'],top:['#0a0716','#100b20','#0c0819'],deco:'frost',dark:'4,2,12',amb:'star',
+  sp:['#a898d0','#e8e0ff','#c070ff'],liq:['#10081e','#3a1a6a','#a070ff'],liqDmg:2,liqN:'пустота',
+  pool:[['voidling',2.6,0],['shade',2.4,0],['wisp',2,0],['watcher',1.8,1],['rift',2,1],['devourer',1.5,1],['voidpriest',1.3,1],['healer',1,1],['assassin',1.4,2],['necro',1,2]],
+  elite:['voidknight'],boss:'ymir',
+  ch:[[36,43,48,51],[37,44,49,53],[34,41,46,49],[38,45,50,54]],bells:[70,73,77,80,82]}
+);
+const DUNG=[0,1,2,8,7,3,9,4,10,5],NBIO=DUNG.length;
+const biomeOf=f=>DUNG[Math.floor((f-1)/3)%NBIO];
 const hsh=(x,y)=>{let h=(x*374761393+y*668265263+seed*1442695041)|0;h=Math.imul(h^(h>>>13),1274126177);return((h^(h>>>16))>>>0)/4294967296};
 const solid=(x,y)=>{const tx=Math.floor(x/TILE),ty=Math.floor(y/TILE);return tx<0||ty<0||tx>=MW||ty>=MH||map[ty*MW+tx]===0};
 const blocked=(x,y,r)=>solid(x-r,y-r)||solid(x+r,y-r)||solid(x-r,y+r)||solid(x+r,y+r);
@@ -4388,7 +4674,7 @@ function strike(e){
       for(let k=0;k<14&&made<ri(2,3);k++){
         const a=rnd()*6.283,px=e.x+Math.cos(a)*22,py=e.y+Math.sin(a)*22;
         if(blocked(px,py,5))continue;
-        const m=spawnEnemy('walker',e.room,Math.floor(px/TILE),Math.floor(py/TILE));
+        const m=spawnEnemy(e.T.minion||'walker',e.room,Math.floor(px/TILE),Math.floor(py/TILE));
         m.x=px;m.y=py;m.active=true;m.summoned=true;m.summoner=e;m.hp=m.maxHp=m.maxHp*.6;made++;
         burst(px,py,8,'#b57cd6',50,.4,2);
       }
@@ -5227,7 +5513,7 @@ function spawnCrits(){
 }
 function genBlades(){
   blades=[[],[],[]];
-  {const bn=BIOMES[biome].id;if(bn!=='roots'&&bn!=='village')return}
+  {const bn=BIOMES[biome].id;if(bn!=='roots'&&bn!=='village'&&bn!=='alfheim')return}
   for(let ty=1;ty<MH-1;ty++)for(let tx=1;tx<MW-1;tx++){
     if(map[ty*MW+tx]!==1||(town&&VIL.gt[ty*MW+tx]!==G_GRASS))continue;
     const u=hsh(tx*5+3,ty*7+1);if(u>.34)continue;
@@ -6060,6 +6346,27 @@ const AMB={
   ash:{n:30,col:'190,170,170',vx:-8,vy:12,sz:1.4,a:.65,sway:6},
   pollen:{n:22,col:'255,236,170',vx:5,vy:-4,sz:1.2,a:.7,sway:7,pulse:1}
 };
+Object.assign(TORCH,{utgard:['255,150,60','255,225,150'],sea:['90,230,230','200,255,250'],alfheim:['255,170,200','255,235,245'],void:['150,100,255','220,200,255']});
+Object.assign(FOGC,{utgard:'150,130,110',sea:'60,150,170',alfheim:'255,200,220',void:'110,70,200'});
+Object.assign(PUD,{utgard:'90,80,70',sea:'80,170,190',alfheim:'200,170,230',void:'100,60,190'});
+Object.assign(WET,{utgard:.3,sea:1,alfheim:.7,void:.8});
+Object.assign(DUSTC,{utgard:'#8a7a64',sea:'#5aa0a8',alfheim:'#c8c090',void:'#6a58a8'});
+LAVAC.void='150,90,255';LAVAC.sea='60,170,210';
+Object.assign(AMB,{
+  bubble:{n:24,col:'170,230,240',vx:1,vy:-14,sz:1.3,a:.6,sway:5},
+  star:{n:30,col:'200,180,255',vx:0,vy:0,sz:1.2,a:.9,sway:2,pulse:2}
+});
+Object.assign(PSET,{
+  utgard:[['crate',3],['barrel',2],['pillar',4],['bones',3],['anvil',1],['brazier',3],['urn',1]],
+  sea:[['urn',3],['barrel',2],['bones',3],['ribs',3],['icecrystal',3],['crate',1]],
+  alfheim:[['stump',3],['mush',6],['gems',2],['urn',2],['lantern',3]],
+  void:[['obsidian',4],['gems',4],['icecrystal',3],['lantern',2],['bones',2],['pillar',2]]
+});
+Object.assign(CRSET,{utgard:['rat','rat','beetle'],sea:['beetle','lizard','beetle'],alfheim:['hare','hare','bat'],void:['bat','bat','beetle']});
+Object.assign(BLOOD,{drowned:'#3a6a6a',crab:'#6a8a8a',jelly:'#c070b0',siren:'#4a8aa0',kraken:'#3a7a9a',tentacle:'#3a7a9a',stoneskin:'#7a7a6a',thrym:'#8aa0b0',gleam:'#f0e0a0',dryad:'#7aaa6a',blossom:'#d070a0',delling:'#ffe8a0',voidling:'#6a3aaa',shade:'#3a2a6a',wisp:'#b070e0',devourer:'#5a2a8a',ymir:'#8a70d0',voidknight:'#4a2a8a'});
+Object.assign(ELT,{siren:'120,220,255',jelly:'255,150,220',kraken:'120,220,255',tentacle:'100,200,230',gleam:'255,240,170',dryad:'160,255,180',blossom:'255,150,210',delling:'255,230,150',warden:'180,240,120',voidling:'190,140,255',wisp:'230,150,255',watcher:'200,140,255',rift:'190,120,255',voidpriest:'190,140,255',ymir:'190,150,255',voidknight:'255,80,170',thrym:'150,210,255',shaman:'150,210,255',moonguard:'180,190,255'});
+Object.assign(FROSTY,{shaman:1,siren:1,thrym:1,ymir:1,seadog:1});
+
 function drawAmbient(){
   const A=AMB[BIOMES[biome].amb];if(!A||reduceMotion)return;
   for(let i=0;i<A.n;i++){
@@ -6499,7 +6806,7 @@ function genArena(){
   return r;
 }
 function arenaStage(){
-  const nb=(arenaS.stage-1)%6,changed=nb!==biome;biome=nb;
+  const nb=DUNG[(arenaS.stage-1)%NBIO],changed=nb!==biome;biome=nb;
   const r=genArena();renderMap();buildTorches();
   zones=[];hazards=[];projs=[];pballs=[];
   P.x=r.cx*TILE+8;P.y=r.cy*TILE+8;P.vx=P.vy=0;
